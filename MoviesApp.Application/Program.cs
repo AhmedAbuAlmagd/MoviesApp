@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MoviesApp.Core.MapConfigs;
@@ -10,6 +11,10 @@ using MoviesApp.Data.Models.Context;
 using MoviesApp.Domain.Repositories;
 using MoviesApp.Domain.Service;
 using System.Text;
+using MoviesApp.Core.Helpers;
+
+
+
 
 namespace MoviesApp.Application
 {
@@ -28,10 +33,12 @@ namespace MoviesApp.Application
                 options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+
             // Add Identity
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<MoviesContext>()
                 .AddDefaultTokenProviders();
+
 
             // Configure JWT Authentication
             builder.Services.AddAuthentication(options =>
@@ -54,6 +61,7 @@ namespace MoviesApp.Application
             });
 
 
+            URLHelper.BaseUrl = builder.Configuration["Urls:baseUrl"];
             builder.Services.AddAutoMapper(typeof(MappingConfig).Assembly);
        
             builder.Services.AddControllers();
@@ -69,7 +77,7 @@ namespace MoviesApp.Application
 
 
             var app = builder.Build();
-
+            app.UseStaticFiles();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -77,7 +85,7 @@ namespace MoviesApp.Application
             }
 
             app.UseHttpsRedirection();
-
+            
             app.UseCors("AllowAll");
             app.UseAuthorization();
             app.UseAuthentication();

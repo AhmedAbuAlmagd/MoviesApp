@@ -21,7 +21,7 @@ namespace MoviesApp.Domain.Repositories.Service
 
         public async Task<string> AddMedia(IFormFile file , string mediaType)
         {
-            string folderName = mediaType.ToLower() == "video" ? "Videos" : "Images";
+            string folderName = mediaType.ToLower() == "video" ? "Trailers" : "Images";
             string ImageDirectory = Path.Combine("wwwroot", "Movies",folderName);
             if(!Directory.Exists(ImageDirectory))
                 Directory.CreateDirectory(ImageDirectory);

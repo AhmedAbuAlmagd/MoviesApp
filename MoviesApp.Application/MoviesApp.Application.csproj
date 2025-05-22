@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\Movies\Video\**" />
+    <Content Remove="wwwroot\Movies\Video\**" />
+    <EmbeddedResource Remove="wwwroot\Movies\Video\**" />
+    <None Remove="wwwroot\Movies\Video\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
@@ -24,6 +31,10 @@
   <ItemGroup>
     <ProjectReference Include="..\MoviesApp.Core\MoviesApp.Domain.csproj" />
     <ProjectReference Include="..\MoviesApp.Data\MoviesApp.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Movies\Trailers\" />
   </ItemGroup>
 
 </Project>

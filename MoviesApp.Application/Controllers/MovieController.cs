@@ -94,6 +94,7 @@ namespace MoviesApp.Application.Controllers
         [Authorize("Admin")]
         public async Task<IActionResult> Edit([FromForm]UpdateMovieDTO movieDto)
         {
+
             try
             {
                 Movie oldMovie = await _unit.MovieRepository.GetByIdAsync(movieDto.Id);
