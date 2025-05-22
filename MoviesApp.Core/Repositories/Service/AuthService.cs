@@ -24,10 +24,11 @@ namespace MoviesApp.Domain.Service
         public async Task<AuthResponseDTO> RegisterAsync(RegisterDTO model)
         {
             if (await _userManager.FindByEmailAsync(model.Email) != null)
-                return new AuthResponseDTO { Message = "Email is already registered!" };
+                throw new Exception("Email is already registered!");
 
             if (await _userManager.FindByNameAsync(model.UserName) != null)
-                return new AuthResponseDTO { Message = "Username is already registered!" };
+                throw new Exception("Username is already registered!");
+
             try
             {
                 var user = new ApplicationUser
@@ -42,7 +43,7 @@ namespace MoviesApp.Domain.Service
                 if (!result.Succeeded)
                 {
                     var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                    return new AuthResponseDTO { Message = errors };
+                    throw new Exception(errors);
                 }
 
                 await _userManager.AddToRoleAsync(user, "User");
@@ -57,13 +58,10 @@ namespace MoviesApp.Domain.Service
                     Token = await GenerateJWTToken(user)
                 };
             }
-
             catch (Exception ex)
             {
-                return new AuthResponseDTO { Message = ex.Message };
+                throw new Exception(ex.Message);
             }
-
-           
         }
 
         public async Task<AuthResponseDTO> LoginAsync(LoginDTO model)
@@ -72,7 +70,7 @@ namespace MoviesApp.Domain.Service
 
             if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
             {
-                return new AuthResponseDTO { Message = "Invalid email or password!" };
+                throw new Exception("Invalid email or password!");
             }
 
             var roles = await _userManager.GetRolesAsync(user);

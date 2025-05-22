@@ -21,12 +21,15 @@ namespace MoviesApp.Application.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _authService.RegisterAsync(model);
-
-            if (result.IsAuthenticated == false)
-                return BadRequest(result);
-
-            return Ok(result);
+            try
+            {
+                var result = await _authService.RegisterAsync(model);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpPost("Login")]
@@ -35,12 +38,15 @@ namespace MoviesApp.Application.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _authService.LoginAsync(model);
-
-            if (result.IsAuthenticated == false)
-                return BadRequest(result);
-
-            return Ok(result);
+            try
+            {
+                var result = await _authService.LoginAsync(model);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 } 
