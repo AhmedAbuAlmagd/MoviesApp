@@ -53,7 +53,7 @@ namespace MoviesApp.Application.Controllers
         }
 
         [HttpPost("Add")]
-        [Authorize("Admin")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Add(CategoryDTO category)
         {
             try
@@ -69,7 +69,7 @@ namespace MoviesApp.Application.Controllers
         }
 
         [HttpPut("Edit")]
-        [Authorize("Admin")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Edit( int id,UpdateCategoryDTO category) 
         {
            try
@@ -87,7 +87,7 @@ namespace MoviesApp.Application.Controllers
         }
 
         [HttpDelete("Delete/{id:int}")]
-        [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             try

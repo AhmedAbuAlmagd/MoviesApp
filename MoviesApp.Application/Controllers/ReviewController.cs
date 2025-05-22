@@ -51,7 +51,7 @@ namespace MoviesApp.Application.Controllers
         }
 
         [HttpPost("Add")]
-        [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Add(AddReviewDTO reviewDto)
         {
             try
@@ -62,7 +62,6 @@ namespace MoviesApp.Application.Controllers
                 await _unit.ReviewRepository.AddAsync(review);
                 await _unit.ReviewRepository.SaveAsync();
 
-                // Update movie rating
                 var movie = await _unit.MovieRepository.GetByIdAsync(review.MovieId);
                 if (movie != null)
                 {
@@ -83,7 +82,7 @@ namespace MoviesApp.Application.Controllers
 
         [Authorize]
         [HttpPut("Edit")]
-        [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(UpdateReviewDTO reviewDto)
         {
             try
@@ -120,7 +119,7 @@ namespace MoviesApp.Application.Controllers
 
         [Authorize]
         [HttpDelete("Delete/{id:int}")]
-        [Authorize("Admin")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             try

@@ -24,13 +24,19 @@ namespace MoviesApp.Application.Controllers
         {
             try
             {
+                Console.WriteLine($"Received request - Page: {pageNumber}, Size: {pageSize}, Category: {catId}, Search: {searchWord}, Sort: {sort}");
+                
                 List<Movie> movies = await _unit.MovieRepository.GetAllAsync(sort,catId,searchWord, pageSize , pageNumber);
                 var MoviesDto = _mapper.Map<List<MovieDTO>>(movies);
                 int totalCount = await _unit.MovieRepository.GetFilteredCountAsync(catId, searchWord);
+                
+                Console.WriteLine($"Returning - Total Count: {totalCount}, Movies Count: {movies.Count}");
+                
                 return Ok(new Pagination<MovieDTO>(pageNumber,pageSize,totalCount,MoviesDto));
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error: {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
@@ -55,7 +61,7 @@ namespace MoviesApp.Application.Controllers
 
         [RequestSizeLimit(200_000_000)]
         [HttpPost("Add")]
-        [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Add([FromForm] AddMovieDTO movieDto)
         {
             try
@@ -90,7 +96,7 @@ namespace MoviesApp.Application.Controllers
 
         [RequestSizeLimit(200_000_000)]
         [HttpPut("Edit")]
-        [Authorize("Admin")]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Edit([FromForm]UpdateMovieDTO movieDto)
         {
 
