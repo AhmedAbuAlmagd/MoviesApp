@@ -11,5 +11,6 @@ namespace MoviesApp.Data.Interfaces
     {
         Task<List<Movie>> GetAllAsync(string sort,int? catId, string searchWord, int pageSize , int pageNumber);
         Task<int> GetCountAsync();
+        Task<int> GetFilteredCountAsync(int? catId, string searchWord);
     }
 }

@@ -26,10 +26,9 @@ namespace MoviesApp.Application.Controllers
             {
                 List<Movie> movies = await _unit.MovieRepository.GetAllAsync(sort,catId,searchWord, pageSize , pageNumber);
                 var MoviesDto = _mapper.Map<List<MovieDTO>>(movies);
-                int totalCount = await _unit.MovieRepository.GetCountAsync();
+                int totalCount = await _unit.MovieRepository.GetFilteredCountAsync(catId, searchWord);
                 return Ok(new Pagination<MovieDTO>(pageNumber,pageSize,totalCount,MoviesDto));
             }
-
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);

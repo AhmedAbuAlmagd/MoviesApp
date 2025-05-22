@@ -20,14 +20,15 @@ namespace MoviesApp.Domain.Repositories
         public async Task<List<Movie>> GetAllAsync(string? sort ,int? catId ,string searchWord, int pageSize, int pageNumber)
         {
             var query = _context.Movies.AsNoTracking().AsQueryable();
-
+                
 
             //Filtering with Word 
             if(!String.IsNullOrEmpty(searchWord))
             {
                 string[] searchWords = searchWord.Split(' ');
                 query = query.Where(m => searchWords.All(word =>
-                    m.Title.ToLower().Contains(word.ToLower()) || m.Description.ToLower().Contains(word.ToLower())
+                    m.Title.ToLower().Contains(word.ToLower()) || 
+                    (m.Description != null && m.Description.ToLower().Contains(word.ToLower()))
                 ));
             }
             
@@ -35,9 +36,8 @@ namespace MoviesApp.Domain.Repositories
             if(catId.HasValue)
                 query = query.Where(m => m.MovieCategories.Any(c => c.CategoryId == catId));
 
-
             //Filtering With Rating 
-           if(!String.IsNullOrEmpty(sort))
+            if(!String.IsNullOrEmpty(sort))
             {
                 switch(sort)
                 {
@@ -46,8 +46,8 @@ namespace MoviesApp.Domain.Repositories
                         break;
                     case "RatingDesc":
                         query = query.OrderByDescending(q => q.Rating);
-                        break ;
-                    default :
+                        break;
+                    default:
                         query = query.OrderBy(q => q.Title);
                         break;
                 }
@@ -59,6 +59,27 @@ namespace MoviesApp.Domain.Repositories
         public async Task<int> GetCountAsync()
         {
             return await _context.Movies.AsNoTracking().CountAsync();
+        }
+
+        public async Task<int> GetFilteredCountAsync(int? catId, string searchWord)
+        {
+            var query = _context.Movies.AsNoTracking().AsQueryable();
+
+            //Filtering with Word 
+            if(!String.IsNullOrEmpty(searchWord))
+            {
+                string[] searchWords = searchWord.Split(' ');
+                query = query.Where(m => searchWords.All(word =>
+                    m.Title.ToLower().Contains(word.ToLower()) || 
+                    (m.Description != null && m.Description.ToLower().Contains(word.ToLower()))
+                ));
+            }
+            
+            //Filtering with Category 
+            if(catId.HasValue)
+                query = query.Where(m => m.MovieCategories.Any(c => c.CategoryId == catId));
+
+            return await query.CountAsync();
         }
     }
 }
