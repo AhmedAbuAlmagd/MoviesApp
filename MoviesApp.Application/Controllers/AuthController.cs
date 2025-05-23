@@ -50,19 +50,6 @@ namespace MoviesApp.Application.Controllers
             }
         }
 
-        [HttpPost("Logout")]
-        [Authorize]
-        public IActionResult Logout()
-        {
-            try
-            {
-               
-                return Ok(new { message = "Logged out successfully" });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-        }
+       
     }
 } 

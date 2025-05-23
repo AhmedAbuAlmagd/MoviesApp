@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoviesApp.Data.Models;
+using MoviesApp.Core.Models;
 
 namespace MoviesApp.Data.Models.Context
 {
@@ -16,6 +17,7 @@ namespace MoviesApp.Data.Models.Context
         public DbSet<Category> Categories { get; set; }
         public DbSet<MovieCategory> MovieCategories { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Watchlist> watchlists { get; set; }
 
         public MoviesContext(DbContextOptions<MoviesContext> options) : base(options)
         {

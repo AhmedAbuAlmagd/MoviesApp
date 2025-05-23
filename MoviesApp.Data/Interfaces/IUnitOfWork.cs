@@ -15,6 +15,7 @@ namespace MoviesApp.Data.Interfaces
         public IReviewRepository ReviewRepository { get; }
         public IImageService ImageService { get; }
         public IMovieCategoriesRepository MovieCategoriesRepository { get; }
+        public IWatchListRepository WatchListRepository { get; }
 
     }
 }

@@ -22,6 +22,7 @@ namespace MoviesApp.Domain.Repositories
 
         public IReviewRepository ReviewRepository { get; }
         public IMovieCategoriesRepository MovieCategoriesRepository { get; }
+        public IWatchListRepository WatchListRepository { get; }
 
         public IImageService ImageService { get; }
 
@@ -33,6 +34,7 @@ namespace MoviesApp.Domain.Repositories
             ReviewRepository = new ReviewRepository(context);
             CategoryRepository = new CategoryRepository(context);
             MovieCategoriesRepository = new MovieCategoriesRepository(context);
+            WatchListRepository = new WatchlistRepository(context);
 
             var fileProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory());
             ImageService = new ImageService(fileProvider);

@@ -51,7 +51,7 @@ namespace MoviesApp.Application.Controllers
         }
 
         [HttpPost("Add")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> Add(AddReviewDTO reviewDto)
         {
             try
@@ -76,13 +76,12 @@ namespace MoviesApp.Application.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.InnerException.Message);
+                return BadRequest(ex.Message);
             }
         }
 
-        [Authorize]
         [HttpPut("Edit")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> Edit(UpdateReviewDTO reviewDto)
         {
             try
@@ -119,7 +118,7 @@ namespace MoviesApp.Application.Controllers
 
         [Authorize]
         [HttpDelete("Delete/{id:int}")]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles ="User")]
         public async Task<IActionResult> Delete(int id)
         {
             try

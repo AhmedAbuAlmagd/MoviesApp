@@ -16,7 +16,7 @@ namespace MoviesApp.Domain.Repositories
         {
             
         }
-
+        
         public async Task<List<Movie>> GetAllAsync(string? sort ,int? catId ,string searchWord, int pageSize, int pageNumber)
         {
             var query = _context.Movies.AsNoTracking().AsQueryable();
