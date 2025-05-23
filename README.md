@@ -135,6 +135,14 @@ The application comes with a pre-seeded admin account:
 - Role
 - CreatedAt
 
+### Categories
+- Id (PK)
+- Name
+
+### MovieCategories
+- MovieID (PK) (Fk)
+- CategoryId (PK) (Fk)
+
 ### Movies
 - Id (PK)
 - Title
@@ -143,7 +151,6 @@ The application comes with a pre-seeded admin account:
 - Poster
 - Trailer
 - Rating
-- Categories (Many-to-Many)
 
 ### Reviews
 - Id (PK)
