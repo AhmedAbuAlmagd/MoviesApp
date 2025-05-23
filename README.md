@@ -4,7 +4,7 @@ A robust .NET Core backend API for the Movie Application, providing secure endpo
 
 ## 🛠️ Technology Stack
 
-- .NET Core 7
+- .NET Core 9
 - Entity Framework Core
 - SQL Server
 - JWT Authentication
