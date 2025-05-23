@@ -60,6 +60,7 @@ namespace MoviesApp.Application
                 };
             });
 
+            builder.Services.AddAuthorization();
 
             URLHelper.BaseUrl = builder.Configuration["Urls:baseUrl"];
             builder.Services.AddAutoMapper(typeof(MappingConfig).Assembly);
@@ -87,8 +88,8 @@ namespace MoviesApp.Application
             app.UseHttpsRedirection();
             
             app.UseCors("AllowAll");
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseSwaggerUI(op => op.SwaggerEndpoint("/openapi/v1.json", "v1"));
 

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MoviesApp.Core.DTO;
 using MoviesApp.Core.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MoviesApp.Application.Controllers
 {
@@ -42,6 +43,21 @@ namespace MoviesApp.Application.Controllers
             {
                 var result = await _authService.LoginAsync(model);
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("Logout")]
+        [Authorize]
+        public IActionResult Logout()
+        {
+            try
+            {
+               
+                return Ok(new { message = "Logged out successfully" });
             }
             catch (Exception ex)
             {

@@ -61,7 +61,7 @@ namespace MoviesApp.Application.Controllers
 
         [RequestSizeLimit(200_000_000)]
         [HttpPost("Add")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Add([FromForm] AddMovieDTO movieDto)
         {
             try
@@ -83,7 +83,7 @@ namespace MoviesApp.Application.Controllers
                         .ToList();
                 }
 
-                await _unit.MovieRepository.UpdateAsync(movie);
+                await _unit.MovieRepository.AddAsync(movie);
                 await _unit.MovieRepository.SaveAsync();
                 return CreatedAtAction(nameof(GetById), new { id = movie.Id }, movie);
             }
@@ -107,7 +107,7 @@ namespace MoviesApp.Application.Controllers
                     return NotFound("Invalid Id");
                 if (movieDto.Poster != null)
                     oldMovie.Poster = await _unit.ImageService.AddMedia(movieDto.Poster, "image");
-
+                    
                 if (movieDto.Trailer != null)
                     oldMovie.Trailer = await _unit.ImageService.AddMedia(movieDto.Trailer, "video");
 
@@ -125,7 +125,7 @@ namespace MoviesApp.Application.Controllers
 
                 await _unit.MovieRepository.SaveAsync();
 
-                return Ok(_mapper.Map<MovieDTO>(oldMovie));
+                return Ok();
             }
 
             catch (Exception ex)
@@ -136,7 +136,7 @@ namespace MoviesApp.Application.Controllers
 
         [RequestSizeLimit(200_000_000)]
         [HttpDelete("Delete/{id:int}")]
-        [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             try
